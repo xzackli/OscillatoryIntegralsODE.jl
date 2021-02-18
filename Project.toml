@@ -3,6 +3,10 @@ uuid = "e054f41b-10ad-423f-97d4-9485c9df73b3"
 authors = ["Zack Li"]
 version = "0.1.0"
 
+[deps]
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+
 [compat]
 julia = "1.5"
 

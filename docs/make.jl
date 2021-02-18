@@ -20,4 +20,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/xzackli/OscillatoryIntegralsODE.jl",
+    devbranch = "main"
 )
