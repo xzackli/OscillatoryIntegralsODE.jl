@@ -3,6 +3,17 @@
 struct HarmonicIntegral{T, Tpar} <: OscillatoryIntegral{T, Tpar, 1}
     ω::Tpar
 end
+
+raw"""
+    HarmonicIntegral{T}(ω)
+
+This constructs a spherical Bessel integration problem which solves
+```math
+I = \int_a^b f(x) e^{i \omega x} \, dx
+```
+and produces output of type `{T}`.
+```
+"""
 HarmonicIntegral{T}(ω::Tpar) where {T, Tpar} = HarmonicIntegral{T,Tpar}(ω)
 osc_kernel(oi::HarmonicIntegral{T, Tpar}, x) where {T, Tpar} = 1im * oi.ω
 osc_funcs(oi::HarmonicIntegral{T, Tpar}, x) where {T, Tpar} =  # the vector v(x)

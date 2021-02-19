@@ -10,7 +10,7 @@ import LinearAlgebra: dot
 # M is the dimension of the Levin ODE, changes for each function
 abstract type OscillatoryIntegral{T, Tpar, M} end
 
-"""
+raw"""
     levintegrate(oi, f, a, b, alg=Vern9(); ode_kwargs...)
 
 This computes ``\\int_a^b f(x) w(x) dx``` for ``0 < a < b```, where ``f(x)`` is
@@ -60,6 +60,17 @@ struct BesselJIntegral{T, Tpar} <: OscillatoryIntegral{T, Tpar, 2}
     ν::Tpar
     r::Tpar
 end
+
+raw"""
+    BesselJIntegral{T}(ν, r)
+
+This constructs a Bessel integration problem which solves
+```math
+I = \int_a^b f(x) J_{\nu}(r x)\, dx
+```
+and produces output of type `{T}`.
+```
+"""
 BesselJIntegral{T}(ν::Tpar, r::Tpar) where {T, Tpar} = BesselJIntegral{T,Tpar}(ν, r)
 osc_kernel(oi::BesselJIntegral{T, Tpar}, x) where {T, Tpar} =
     SA[(oi.ν-one(Tpar))/x  (-oi.r);
@@ -73,6 +84,18 @@ struct SphericalBesselJIntegral{T, Tpar} <: OscillatoryIntegral{T, Tpar, 2}
     ν::Tpar
     r::Tpar
 end
+
+
+raw"""
+    SphericalBesselJIntegral{T}(ν, r)
+
+This constructs a spherical Bessel integration problem which solves
+```math
+I = \int_a^b f(x) j_{\nu}(r x)\, dx
+```
+and produces output of type `{T}`.
+```
+"""
 SphericalBesselJIntegral{T}(ν::Tpar, r::Tpar) where {T, Tpar} =
     SphericalBesselJIntegral{T,Tpar}(ν, r)
 osc_kernel(oi::SphericalBesselJIntegral{T, Tpar}, x) where {T, Tpar} =
