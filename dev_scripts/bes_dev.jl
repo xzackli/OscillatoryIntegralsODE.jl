@@ -13,6 +13,7 @@ xs = 0:0.001:5.0
 plot(xs, [f(x) * besselj(nu, r * x) for x in xs], "-", label=raw"$e^{-x^2/16} J_{100}(100x)$")
 legend()
 gcf()
+# savefig("docs/src/assets/bessel.svg")
 
 ##
 bi = BesselJIntegral{Float64}(nu, r)
