@@ -96,7 +96,7 @@ levintegrate(bi, f, 1.0, 5.0; abstol=1e-6, reltol=1e-6)
 ```
 
 !!! note
-    Levin methods for Bessel functions can only integrate ``0 < a < b``, because ``A(x)`` diverges as it approaches zero. If you need to get down to 0, consider using Gauss quadrature from 0 to the first peak in the Bessel function. Probably the fastest way to do this is to use one of the many asymptotic results for the smallest positive zero, i.e. Watson 1922 ``x_{\nu} = \nu + 1.855757 \nu^{1/3} + O(\nu^{-1/3})``.
+    Levin methods for Bessel functions can only integrate ``0 < a < b``, because ``A(x)`` diverges as it approaches zero. If you need to get down to 0, consider using Gauss quadrature from 0 to the first peak in the Bessel function. Probably the fastest way to do this is to use one of the many asymptotic results for the smallest positive zero (Watson 1922) with ``x_{\nu} = \nu + 1.855757 \nu^{1/3} + O(\nu^{-1/3})``.
 
 We could have used a different ODE integrator. The default [`levintegrate`](@ref) uses `Vern9` from [OrdinaryDiffEq.jl](https://diffeq.sciml.ai/stable/solvers/ode_solve/#Recommended-Methods).
 

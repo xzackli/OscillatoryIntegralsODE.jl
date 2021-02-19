@@ -7,6 +7,8 @@
 
 This package computes highly oscillatory integrals by combining a Levin method ([Levin 1994](https://www.sciencedirect.com/science/article/pii/0377042794001189)) with an ODE solver. It currently supports Bessel, spherical Bessel, and harmonic integrals.
 
+Please read the [documentation](https://xzackli.github.io/OscillatoryIntegralsODE.jl/dev) for details.
+
 ```julia
 using OscillatoryIntegralsODE
 f(x) = exp(-x^2/16)
