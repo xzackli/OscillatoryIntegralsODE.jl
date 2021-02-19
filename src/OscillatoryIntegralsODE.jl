@@ -13,7 +13,7 @@ abstract type OscillatoryIntegral{T, Tpar, M} end
 """
     levintegrate(oi, f, a, b, alg=Vern9(); ode_kwargs...)
 
-This computes ``\\int_a^b f(x) w(x) dx``` for `0 < a < b`, where ``f(x)`` is
+This computes ``\\int_a^b f(x) w(x) dx``` for ``0 < a < b```, where ``f(x)`` is
 a smooth, univariate function, and ``w(x)`` is a highly-oscillatory function.
 
 # Arguments:
