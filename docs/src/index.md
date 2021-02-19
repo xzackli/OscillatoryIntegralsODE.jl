@@ -19,7 +19,7 @@ where ``g(x)`` is a well-behaved function, but ``S`` is rapidly-oscillating for 
 The main idea of the Levin method ([Levin 1994](https://www.sciencedirect.com/science/article/pii/0377042794001189)) is to transform the integral of a rapidly-oscillating function into an equivalent non-rapidly oscillatory system of ordinary differential equations. We now follow Levin, and let ``\mathbf{f}(x) = ( f_1(x), \ldots, f_m(x) )^T`` be an ``m``-vector of non-rapidly oscillatory functions, and ``\mathbf{w}(x) = ( w_1(x), \ldots, w_m(x) )^T`` be an ``m``-vector of linearly independent rapidly oscillatory functions. Now suppose your oscillatory functions ``w_i`` have some special properties, such that the derivative vector ``\mathbf{w}'(x)`` is always some linear transformation of ``mathbf{w}``. Then we could write 
 
 ```math
-\mathbf{w}'(x) = A(x) \mathbf{w}(x).
+\mathbf{w}'(x) = \mathbf{A}(x) \mathbf{w}(x).
 ```
 We are lucky, as many common rapidly oscillatory functions, such as those of the Bessel, spherical Bessel, harmonic, sine, and cosine transforms, indeed satisfy such a relation. For example, the derivative of the Bessel function can be expressed as a linear combination of two Bessel functions, and they are also subject to a convenient recursion relation among different orders. One only needs ``m=2`` to be able to write a ``\mathbf{w}(x)`` containing a desired Bessel function (see later sections).
 
@@ -39,7 +39,7 @@ Thus ``\mathbf{p}`` should be an approximate solution to
 ```math
 \mathbf{p}^\prime + \mathbf{A}^T \mathbf{p} = \mathbf{f}.
 ```
-We solve this ODE directly, obtaining an approximate solution. As there are no boundary conditions here, we generally choose ``p(a) = \mathbf{0}``. We then only need to obtain the ODE solution at ``b``, and we have our integral ``I \approx \mathbf{p}(b) \cdot \mathbf{w}(b)``.
+We solve this ODE directly, obtaining an approximate solution. As there are no boundary conditions here, we generally choose ``p(a) = \mathbf{0}``. We then only need to obtain the ODE solution at ``b``, and we have our integral ``I \approx \mathbf{p}(b) \cdot \mathbf{w}(b)``. If the ODE solver is a Runge Kutta method, then there's a good chance it corresponds to some kind of Taylor-based collocation method, which is typically what the literature discuses.
 
 ### Bessel Functions
 Bessel functions of the first kind ``J_{\nu}`` satisfy 
@@ -78,7 +78,7 @@ To calculate a univariate integral with a Bessel function
 ```math
 I = \int_a^b f(x) J_{\nu}(r x) \, dx,
 ```
-one needs to initialize a `BesselJIntegral{T}` with the order ``nu`` and ``r``, as well as the output type `T`. Consider the example,
+one needs to initialize a `BesselJIntegral{T}` with the order ``nu`` and ``r``, as well as the output type `T`. Consider an example,
 ```math
 I = \int_a^b e^{-x^2/16} J_{100}(200 x) \, dx,
 ```
@@ -95,11 +95,41 @@ levintegrate(bi, f, 1.0, 5.0; abstol=1e-6, reltol=1e-6)
 0.00002612881708428357
 ```
 
+!!! note
+    Levin methods for Bessel functions can only integrate ``0 < a < b``, because ``A(x)`` diverges as it approaches zero. If you need to get down to 0, consider using Gauss quadrature from 0 to the first peak in the Bessel function. Probably the fastest way to do this is to use one of the many asymptotic results for the smallest positive zero, i.e. Watson 1922 ``x_{\nu} = \nu + 1.855757 \nu^{1/3} + O(\nu^{-1/3})``.
+
 We could have used a different ODE integrator. The default [`levintegrate`](@ref) uses `Vern9` from [OrdinaryDiffEq.jl](https://diffeq.sciml.ai/stable/solvers/ode_solve/#Recommended-Methods).
 
 ```julia
 using OrdinaryDiffEq
 levintegrate(bi, f, 1.0, 5.0, Vern9(); abstol=1e-6, reltol=1e-6)
 ```
+Note that the keyword arguments for [`levintegrate`](@ref) are passed directly to the ODE `solve` call.
 
-Take a look at the tests for examples of the other functions.
+Similarly for Spherical Bessel functions ``j_{\nu}(rx)``, we can set up an integral,
+
+```math
+I = \int_1^5 e^{-x^2/16} j_{100}(100 x)\, dx
+```
+
+```julia
+nu = 100.
+r = 100.
+f(x) = exp(-x^2/16)
+bi = SphericalBesselJIntegral{Float64}(nu, r)
+levintegrate(bi, f, 1.0, 5.0, Vern9(); abstol=1e-6, reltol=1e-6)
+```
+```
+0.0008322179291456167
+```
+
+We also include an integral type for the harmonic transform ``e^{i \omega x}``,
+```julia
+ω = 100.
+f(x) = exp(-x^2/16)
+hi = HarmonicIntegral{Complex{Float64}}(ω)
+result = levintegrate(hi, f, 1.0, 5.0, Vern9(); abstol=1e-6, reltol=1e-6)
+```
+```
+0.003797996803011478 + 0.00995319484859839im
+```
