@@ -8,6 +8,6 @@ This package performs highly oscillatory quadrature by combining a Levin method 
 
 ```@raw html
 <p align="center">
-<img width=60% src="../assets/bessel.svg">
+<img width=60% src="assets/bessel.svg">
 </p>
 ``` ⠀
