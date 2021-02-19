@@ -10,10 +10,10 @@ import LinearAlgebra: dot
 # M is the dimension of the Levin ODE, changes for each function
 abstract type OscillatoryIntegral{T, Tpar, M} end
 
-raw"""
+"""
     levintegrate(oi, f, a, b, alg=Vern9(); ode_kwargs...)
 
-This computes ``\\int_a^b f(x) w(x) dx``` for ``0 < a < b```, where ``f(x)`` is
+This computes ``\\int_a^b f(x) w(x) dx`` for ``0 < a < b``, where ``f(x)`` is
 a smooth, univariate function, and ``w(x)`` is a highly-oscillatory function.
 
 # Arguments:
@@ -60,17 +60,6 @@ struct BesselJIntegral{T, Tpar} <: OscillatoryIntegral{T, Tpar, 2}
     ν::Tpar
     r::Tpar
 end
-
-raw"""
-    BesselJIntegral{T}(ν, r)
-
-This constructs a Bessel integration problem which solves
-```math
-I = \int_a^b f(x) J_{\nu}(r x)\, dx
-```
-and produces output of type `{T}`.
-```
-"""
 BesselJIntegral{T}(ν::Tpar, r::Tpar) where {T, Tpar} = BesselJIntegral{T,Tpar}(ν, r)
 osc_kernel(oi::BesselJIntegral{T, Tpar}, x) where {T, Tpar} =
     SA[(oi.ν-one(Tpar))/x  (-oi.r);
@@ -79,23 +68,23 @@ osc_funcs(oi::BesselJIntegral{T, Tpar}, x) where {T, Tpar} =
     SA[besselj(oi.ν-one(Tpar), oi.r * x);  besselj(oi.ν, oi.r * x)]  # Levin94 eq 3.1-3.3, v(x)
 
 
+"""
+    BesselJIntegral{T}(ν, r)
+
+This constructs a Bessel integration problem which solves
+```math
+I = \\int_a^b f(x) J_{\\nu}(r x)\\, dx
+```
+and produces output of type `{T}`.
+"""
+function BesselJIntegral end
+
+
 # kernel and functions for the 𝐬𝐩𝐡𝐞𝐫𝐢𝐜𝐚𝐥 𝐁𝐞𝐬𝐬𝐞𝐥 function j_ν(rx)
 struct SphericalBesselJIntegral{T, Tpar} <: OscillatoryIntegral{T, Tpar, 2}
     ν::Tpar
     r::Tpar
 end
-
-
-raw"""
-    SphericalBesselJIntegral{T}(ν, r)
-
-This constructs a spherical Bessel integration problem which solves
-```math
-I = \int_a^b f(x) j_{\nu}(r x)\, dx
-```
-and produces output of type `{T}`.
-```
-"""
 SphericalBesselJIntegral{T}(ν::Tpar, r::Tpar) where {T, Tpar} =
     SphericalBesselJIntegral{T,Tpar}(ν, r)
 osc_kernel(oi::SphericalBesselJIntegral{T, Tpar}, x) where {T, Tpar} =
@@ -103,6 +92,19 @@ osc_kernel(oi::SphericalBesselJIntegral{T, Tpar}, x) where {T, Tpar} =
         (oi.r)            ((-oi.ν-one(Tpar))/x)]  # the matrix A(x)
 osc_funcs(oi::SphericalBesselJIntegral{T, Tpar}, x) where {T, Tpar} =  # the vector v(x)
     SA[sphericalbesselj(oi.ν-one(Tpar), oi.r*x);  sphericalbesselj(oi.ν, oi.r*x)]
+
+
+"""
+    SphericalBesselJIntegral{T}(ν, r)
+
+This constructs a spherical Bessel integration problem which solves
+```math
+I = \\int_a^b f(x) j_{\\nu}(r x)\\, dx
+```
+and produces output of type `{T}`.
+
+"""
+function SphericalBesselJIntegral end
 
 
 include("harmonic.jl")
