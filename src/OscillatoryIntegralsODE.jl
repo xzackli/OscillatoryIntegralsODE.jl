@@ -21,7 +21,7 @@ a smooth, univariate function, and ``w(x)`` is a highly-oscillatory function.
 - `f`: the function to be integrated
 - `a`: lower integration bound, must be greater than zero
 - `b`: upper integration bound, must be greater than `a`
-- `alg`: algorithm used in the ODE solve, use probably want something high order
+- `alg`: algorithm used in the ODE solve, you probably want something high order
 
 # Keywords
 - Any keyword arguments are passed to the `solve` call of the Levin ODE
