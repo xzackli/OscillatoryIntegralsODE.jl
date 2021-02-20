@@ -150,9 +150,9 @@ uuid = "f6369f11-7733-5829-9624-2563aa707210"
 version = "0.10.16"
 
 [[FunctionWrappers]]
-git-tree-sha1 = "e4813d187be8c7b993cb7f85cbf2b7bfbaadc694"
+git-tree-sha1 = "241552bc2209f0fa068b6415b1942cc0aa486bcc"
 uuid = "069b7b12-0de2-55c6-9aab-29f3d0a68a2e"
-version = "1.1.1"
+version = "1.1.2"
 
 [[Future]]
 deps = ["Random"]
@@ -321,7 +321,7 @@ uuid = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 version = "5.50.2"
 
 [[OscillatoryIntegralsODE]]
-deps = ["OrdinaryDiffEq", "StaticArrays"]
+deps = ["LinearAlgebra", "OrdinaryDiffEq", "SpecialFunctions", "StaticArrays"]
 path = ".."
 uuid = "e054f41b-10ad-423f-97d4-9485c9df73b3"
 version = "0.1.0"
