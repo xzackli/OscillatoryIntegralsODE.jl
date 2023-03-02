@@ -12,6 +12,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 [compat]
 StaticArrays = "1"
 OrdinaryDiffEq = "5, 6"
+SpecialFunctions = "1"
 julia = "1"
 
 [extras]
