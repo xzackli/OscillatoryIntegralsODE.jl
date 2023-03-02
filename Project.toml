@@ -1,7 +1,7 @@
 name = "OscillatoryIntegralsODE"
 uuid = "e054f41b-10ad-423f-97d4-9485c9df73b3"
 authors = ["Zack Li"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -10,9 +10,9 @@ SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
-StaticArrays = "1.0"
-OrdinaryDiffEq = "5"
-julia = "1.5"
+StaticArrays = "1"
+OrdinaryDiffEq = "5, 6"
+julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
